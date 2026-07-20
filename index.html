@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ContextLens — Understand any codebase, instantly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient-glow ambient-1" aria-hidden="true"></div>
+    <div class="ambient-glow ambient-2" aria-hidden="true"></div>
+    <div class="ambient-glow ambient-3" aria-hidden="true"></div>
+
+    <header>
+      <nav>
+        <div class="logo"><span class="dot"></span>ContextLens</div>
+        <div class="nav-links">
+          <a href="#process">How it works</a>
+          <a href="#features">Product</a>
+          <a href="#demo">Live demo</a>
+        </div>
+        <div class="nav-cta">
+          <button
+            class="btn theme-toggle"
+            id="theme-toggle"
+            aria-label="Switch to light mode"
+          ></button>
+          <a class="btn" href="#demo">View demo</a>
+          <a class="btn btn-primary" href="#cta">Get started</a>
+          <button class="nav-toggle" aria-label="Menu">
+            <svg width="18" height="18" viewBox="0 0 18 18">
+              <path
+                d="M2 5h14M2 9h14M2 13h14"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ============ HERO ============ -->
+      <section class="hero">
+        <div class="wrap">
+          <span class="eyebrow">developer intelligence, in plain english</span>
+          <h1>Ask your codebase<br /><span class="grad">anything.</span></h1>
+          <p class="sub">
+            ContextLens reads every file, trace, and dependency in your repo —
+            then explains what it found the way a senior engineer would on their
+            first day walking you through it.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#cta">Get started free</a>
+            <a class="btn" href="#demo">Watch it explain code ↓</a>
+          </div>
+          <div class="hero-caption">
+            // connects to GitHub, GitLab, Bitbucket — indexes a mid-size repo
+            in under 4 minutes
+          </div>
+
+          <div class="trace-panel" id="hero-trace">
+            <div class="trace-topbar">
+              <span></span><span></span><span></span>
+              <span class="fname">checkout-service / src/retry.ts</span>
+            </div>
+            <div class="trace-body">
+              <div class="code-pane">
+                <span class="hl"
+                  ><span class="ln">14</span
+                  ><span class="kw">export function</span>
+                  <span class="fn">chargeWithRetry</span>(order) {</span
+                ><span class="ln">15</span> <span class="kw">let</span> attempt
+                = 0; <span class="ln">16</span>
+                <span class="kw">while</span> (attempt &lt;
+                <span class="str">3</span>) { <span class="ln">17</span>
+                <span class="cm">// exponential backoff</span>
+                <span class="ln">18</span> <span class="kw">await</span>
+                <span class="fn">wait</span>(2 ** attempt *
+                <span class="str">100</span>);
+                <span class="ln">19</span> attempt++;
+                <span class="ln">20</span> } <span class="ln">21</span>}
+              </div>
+              <div class="annot-pane">
+                <div class="annot-card">
+                  <span class="tag">Why this exists</span>
+                  <p>
+                    <b>Stripe occasionally times out</b> under load. This
+                    retries up to 3 times with exponential backoff instead of
+                    failing the order outright.
+                  </p>
+                </div>
+                <div class="annot-card">
+                  <span class="tag">Where it's used</span>
+                  <p>
+                    Called from <b>checkout.ts:88</b> and
+                    <b>webhook-handler.ts:41</b> — both payment entry points.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PROCESS ============ -->
+      <section class="process" id="process">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <span class="eyebrow">the pipeline</span>
+            <h2>Three passes, one explanation.</h2>
+            <p>
+              ContextLens doesn't summarize files in isolation. It builds a
+              model of your system first, then reasons across it.
+            </p>
+          </div>
+          <div class="process-grid reveal">
+            <div class="process-step">
+              <span class="num">01 — Map</span>
+              <div class="glyph">
+                <svg width="16" height="16" viewBox="0 0 16 16">
+                  <circle cx="3" cy="3" r="2" fill="currentColor" />
+                  <circle cx="13" cy="3" r="2" fill="currentColor" />
+                  <circle cx="8" cy="13" r="2" fill="currentColor" />
+                  <path
+                    d="M5 3h6M4 5l3 6M12 5L9 11"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  />
+                </svg>
+              </div>
+              <h3>Map the codebase</h3>
+              <p>
+                Parses every file, import, and interface into a full dependency
+                and ownership graph — not just an embedding index.
+              </p>
+            </div>
+            <div class="process-step">
+              <span class="num">02 — Trace</span>
+              <div class="glyph">
+                <svg width="16" height="16" viewBox="0 0 16 16">
+                  <path
+                    d="M2 8h4l2-5 2 10 2-5h2"
+                    stroke="currentColor"
+                    stroke-width="1.3"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+              <h3>Trace execution</h3>
+              <p>
+                Follows real call paths and data flow across services, so
+                answers reflect how the code actually runs — not just how it
+                looks.
+              </p>
+            </div>
+            <div class="process-step">
+              <span class="num">03 — Explain</span>
+              <div class="glyph">
+                <svg width="16" height="16" viewBox="0 0 16 16">
+                  <path
+                    d="M2 3h12v8H6l-3 3v-3H2z"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+              <h3>Explain in plain English</h3>
+              <p>
+                Turns the trace into the kind of walkthrough a senior engineer
+                gives a new hire: intent, risk, and history included.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FEATURES ============ -->
+      <section id="features">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <span class="eyebrow">what it's good for</span>
+            <h2>Everything you'd ask a senior engineer.</h2>
+            <p>
+              The questions that usually mean interrupting someone — answered on
+              demand, with citations back to the actual code.
+            </p>
+          </div>
+          <div class="feat-grid">
+            <div class="feat-card reveal">
+              <div class="glyph">
+                <svg width="17" height="17" viewBox="0 0 17 17">
+                  <circle
+                    cx="4"
+                    cy="4"
+                    r="2"
+                    stroke="var(--accent)"
+                    fill="none"
+                  />
+                  <circle
+                    cx="13"
+                    cy="4"
+                    r="2"
+                    stroke="var(--accent)"
+                    fill="none"
+                  />
+                  <circle
+                    cx="8"
+                    cy="13"
+                    r="2"
+                    stroke="var(--accent)"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+              <h3>Architecture map</h3>
+              <p>
+                A live, navigable diagram of services, modules, and their real
+                dependencies — generated from code, not a diagram someone forgot
+                to update.
+              </p>
+            </div>
+            <div class="feat-card reveal">
+              <div class="glyph">
+                <svg width="17" height="17" viewBox="0 0 17 17">
+                  <path
+                    d="M3 3h11v9H6l-3 3z"
+                    stroke="var(--amber)"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+              <h3>PR review copilot</h3>
+              <p>
+                Flags changes that touch fragile or high-blast-radius code, and
+                explains the risk in the same voice as the rest of ContextLens.
+              </p>
+            </div>
+            <div class="feat-card reveal">
+              <div class="glyph">
+                <svg width="17" height="17" viewBox="0 0 17 17">
+                  <path d="M3 2h7l4 4v9H3z" stroke="var(--green)" fill="none" />
+                  <path d="M10 2v4h4" stroke="var(--green)" fill="none" />
+                </svg>
+              </div>
+              <h3>Onboarding guides</h3>
+              <p>
+                Generates a first-week walkthrough for any part of the repo —
+                where to start, what's load-bearing, what's safe to touch.
+              </p>
+            </div>
+            <div class="feat-card reveal">
+              <div class="glyph">
+                <svg width="17" height="17" viewBox="0 0 17 17">
+                  <path
+                    d="M2 12l4-7 3 4 2-3 4 6"
+                    stroke="var(--rose)"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+              <h3>Impact analysis</h3>
+              <p>
+                Before you change a function, see everything downstream that
+                depends on it — across services, not just the current file.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ DEMO / DASHBOARD ============ -->
+      <section class="demo" id="demo">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <span class="eyebrow">inside the product</span>
+            <h2>
+              One workspace: read the code, see the system, ask the question.
+            </h2>
+            <p>
+              This is the actual dashboard layout — not a screenshot. Switch
+              tabs to see how each view works.
+            </p>
+          </div>
+
+          <div class="tabs reveal" role="tablist">
+            <button
+              class="tab-btn active"
+              data-tab="code"
+              role="tab"
+              aria-selected="true"
+            >
+              ▸ Code Explainer
+            </button>
+            <button
+              class="tab-btn"
+              data-tab="arch"
+              role="tab"
+              aria-selected="false"
+            >
+              ◇ Architecture Map
+            </button>
+            <button
+              class="tab-btn"
+              data-tab="chat"
+              role="tab"
+              aria-selected="false"
+            >
+              ✦ Ask ContextLens
+            </button>
+          </div>
+
+          <div class="dash reveal">
+            <div class="dash-topbar">
+              <span class="path"
+                ><b>payments-service</b> / src /
+                <span id="dash-file">retry.ts</span></span
+              >
+              <div class="dash-dots">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <!-- CODE TAB -->
+            <div class="tabpanel active" id="tab-code">
+              <div class="code-layout">
+                <div class="filetree">
+                  <span class="grouplabel">src/</span>
+                  <div class="file"><span class="dot"></span>checkout.ts</div>
+                  <div class="file active">
+                    <span class="dot"></span>retry.ts
+                  </div>
+                  <div class="file">
+                    <span class="dot"></span>stripe-client.ts
+                  </div>
+                  <div class="file">
+                    <span class="dot"></span>webhook-handler.ts
+                  </div>
+                  <span class="grouplabel" style="margin-top: 14px"
+                    >tests/</span
+                  >
+                  <div class="file"><span class="dot"></span>retry.test.ts</div>
+                </div>
+                <div class="code-view">
+                  <span class="ln">12</span
+                  ><span class="cm">// Handles transient Stripe failures</span>
+                  <span class="hl"
+                    ><span class="ln">13</span
+                    ><span class="kw">export async function</span>
+                    <span class="fn">chargeWithRetry</span>(order) {</span
+                  ><span class="ln">14</span>
+                  <span class="kw">let</span> attempt = 0;
+                  <span class="ln">15</span>
+                  <span class="kw">while</span> (attempt &lt;
+                  <span class="str">3</span>) { <span class="ln">16</span>
+                  <span class="kw">try</span> { <span class="ln">17</span>
+                  <span class="kw">return await</span>
+                  <span class="fn">stripe</span>.charge(order);
+                  <span class="ln">18</span> }
+                  <span class="kw">catch</span> (err) {
+                  <span class="ln">19</span> <span class="kw">await</span>
+                  <span class="fn">wait</span>(2 ** attempt *
+                  <span class="str">100</span>);
+                  <span class="ln">20</span> attempt++;
+                  <span class="ln">21</span> } <span class="ln">22</span> }
+                  <span class="ln">23</span> <span class="kw">throw new</span>
+                  <span class="fn">PaymentFailedError</span>(order.id);
+                  <span class="ln">24</span>}
+                </div>
+                <div class="explain-panel">
+                  <div class="who">
+                    <span class="avatar"></span
+                    ><span>ContextLens explains</span>
+                  </div>
+                  <p>
+                    <b>This retries failed charges up to 3 times</b> with
+                    exponential backoff (100ms, 200ms, 400ms) before giving up
+                    and throwing <b>PaymentFailedError</b>.
+                  </p>
+                  <p>
+                    It exists because Stripe occasionally times out under load —
+                    added in commit <b>a3f9c1</b> after a 2023 incident. Called
+                    from 2 checkout entry points.
+                  </p>
+                  <span class="confidence"
+                    >High confidence · 4 sources traced</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- ARCH TAB -->
+            <div class="tabpanel" id="tab-arch">
+              <div class="arch-wrap">
+                <svg viewBox="0 0 640 320" id="arch-svg">
+                  <path
+                    class="arch-line"
+                    id="l1"
+                    d="M110,60 C160,60 160,150 210,150"
+                  />
+                  <path
+                    class="arch-line"
+                    id="l2"
+                    d="M320,150 C370,150 370,60 420,60"
+                  />
+                  <path
+                    class="arch-line"
+                    id="l3"
+                    d="M320,150 C370,150 370,240 420,240"
+                  />
+                  <path class="arch-line" id="l4" d="M210,150 L100,240" />
+                  <g class="arch-node">
+                    <rect x="20" y="30" width="110" height="46"></rect>
+                    <text x="30" y="50">Client</text>
+                    <text class="sub" x="30" y="65">web + mobile</text>
+                  </g>
+                  <g class="arch-node">
+                    <rect x="210" y="126" width="120" height="48"></rect>
+                    <text x="220" y="147">Checkout API</text>
+                    <text class="sub" x="220" y="163">checkout.ts</text>
+                  </g>
+                  <g class="arch-node">
+                    <rect x="420" y="36" width="130" height="48"></rect>
+                    <text x="430" y="57">Stripe</text>
+                    <text class="sub" x="430" y="73">payment provider</text>
+                  </g>
+                  <g class="arch-node">
+                    <rect x="420" y="216" width="150" height="48"></rect>
+                    <text x="430" y="237">Webhook Queue</text>
+                    <text class="sub" x="430" y="253">webhook-handler.ts</text>
+                  </g>
+                  <g class="arch-node">
+                    <rect x="20" y="216" width="120" height="48"></rect>
+                    <text x="30" y="237">Orders DB</text>
+                    <text class="sub" x="30" y="253">postgres</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <!-- CHAT TAB -->
+            <div class="tabpanel" id="tab-chat">
+              <div class="chat-wrap">
+                <div class="chat-log" id="chat-log">
+                  <div class="msg user">
+                    <span class="avatar"></span>
+                    <span class="bubble"
+                      >Why does checkout retry payments 3 times instead of just
+                      failing fast?</span
+                    >
+                  </div>
+                  <div class="msg bot">
+                    <span class="avatar"></span>
+                    <span class="bubble" id="bot-reply"></span>
+                  </div>
+                </div>
+                <div class="chat-input">
+                  <div class="field">
+                    Ask about any file, function, or decision…
+                  </div>
+                  <button class="btn btn-primary" style="padding: 9px 16px">
+                    Ask
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CTA ============ -->
+      <section class="cta-section" id="cta">
+        <div class="wrap">
+          <div class="cta-box reveal">
+            <h2>Stop reverse-engineering<br />your own codebase.</h2>
+            <p>
+              Connect a repo and get your first architecture map and walkthrough
+              in minutes.
+            </p>
+            <div class="hero-ctas">
+              <a class="btn btn-primary" href="#">Get started free</a>
+              <a class="btn" href="#">Talk to us</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span class="fmeta"
+          >© 2026 ContextLens — read by 4,000+ engineering teams</span
+        >
+        <div class="flinks">
+          <a href="#">Docs</a>
+          <a href="#">Changelog</a>
+          <a href="#">Security</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
