@@ -43,7 +43,7 @@ Current AI coding assistants primarily focus on **writing code**, but very few h
 
 ---
 
-# 💡 Our Solution
+# 💡 Solution
 
 ContextLens acts like a **Senior Software Architect** for any repository.
 
@@ -409,14 +409,6 @@ Developer Chat Interface
 * Code Ownership Analysis
 * Multi-Repository Search
 * Enterprise Dashboard
-
----
-
-# 🎯 Hackathon Value Proposition
-
-## Problem
-
-Developers spend significant time understanding unfamiliar codebases.
 
 ---
 
